@@ -3,6 +3,12 @@ import java.awt.EventQueue;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * Entry-point for the moon lander game.
+ * @author Will Brown
+ * @version 1.0-alpha
+ * Spring 2021
+ */
 public class Application {
 
 	/**
@@ -19,10 +25,11 @@ public class Application {
 			e1.printStackTrace();
 		}
 		
+		// Start the game configuration window
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GameWindow frame = new GameWindow();
+					ConfigWindow frame = new ConfigWindow();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -11,25 +11,33 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
+/**
+ * Main game window.
+ * @author Will Brown
+ * @version 1.0-alpha
+ * Spring 2021
+ */
 public class GameWindow extends JFrame {
 
 	private final int ROCKETHEIGHT = 32;
 	private final int ROCKETWIDTH = ROCKETHEIGHT / 2;
 
 	/**
-	 * Set up the game.
+	 * Set up the game. All code is in the constructor since this class only handles graphics.
+	 * All actual game logic is done in another thread.
+	 * @param tickRate how many times the game logic runs in one second
+	 * @param fuel the amount of fuel the rocket has
 	 */
-	public GameWindow() {
+	public GameWindow(int tickRate, int fuel) {
 		// Set up the game window
 		setResizable(false);
 		setTitle("Moon Lander");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 600);
 		
-		// Set up thread for game loop
-		int tickRate = 100;
-		int fuel = 7500;
+		// Instantiate class for game loop thread
 		GameThread gameThread = new GameThread(tickRate, fuel);
 		
 		// Drawing code for window panel 
@@ -64,6 +72,23 @@ public class GameWindow extends JFrame {
 		lblFuel.setBounds(10, 52, 120, 30);
 		contentPane.add(lblFuel);
 		
+		JLabel lblGameWin = new JLabel("You landed!");
+		lblGameWin.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameWin.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblGameWin.setForeground(Color.WHITE);
+		lblGameWin.setBounds(10, 200, 364, 29);
+		contentPane.add(lblGameWin);
+		lblGameWin.setVisible(false);
+		
+		JLabel lblResetInfo = new JLabel("Press R to reset the game.");
+		lblResetInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblResetInfo.setForeground(Color.WHITE);
+		lblResetInfo.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblResetInfo.setBounds(10, 240, 364, 29);
+		contentPane.add(lblResetInfo);
+		lblResetInfo.setVisible(false);
+		
+		// Key listener code
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -73,6 +98,8 @@ public class GameWindow extends JFrame {
 					break;
 				case KeyEvent.VK_R:
 					gameThread.resetGame();
+					lblGameWin.setVisible(false);
+					lblResetInfo.setVisible(false);
 					break;
 				}
 			}
@@ -87,9 +114,17 @@ public class GameWindow extends JFrame {
 		// Code executed by timer
 		ActionListener updateWindow = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Update the screen with new information.
 				repaint();
 				lblSpeed.setText("Speed: " + gameThread.getSpeed());
-				lblFuel.setText("Fuel: " + fuel);
+				lblFuel.setText("Fuel: " + gameThread.getCurrentFuel());
+				
+				// Display the win/loss text if the game is over.
+				if (gameThread.isGameOver()) {
+					lblGameWin.setText(gameThread.getSpeed() < 25 ? "You landed!" : "You crashed.");
+					lblGameWin.setVisible(true);
+					lblResetInfo.setVisible(true);
+				}
 			}
 		};
 		
