@@ -26,18 +26,10 @@ import javax.swing.JOptionPane;
  */
 public class ConfigWindow extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField fuelTextField;
-	private JTextField tickRateTextField;
-	private JButton btnStartGame;
-	private JLabel lblTickRate;
-	private int tickRate;
-	private int fuel;
-	private JMenuBar menuBar;
-	private JMenu mnTools;
 	private JCheckBoxMenuItem chckbxmntmAdvancedOptions;
-	private JMenu mnHelp;
-	private JMenuItem mntmAbout;
+	private JTextField tickRateTextField;
+	private JLabel lblTickRate;
+	private int tickRate, fuel;
 
 	/**
 	 * Create the frame.
@@ -47,10 +39,10 @@ public class ConfigWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 284, 262);
 		
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		mnTools = new JMenu("Tools");
+		JMenu mnTools = new JMenu("Tools");
 		menuBar.add(mnTools);
 		
 		// Show more options if this checkbox is checked.
@@ -63,10 +55,10 @@ public class ConfigWindow extends JFrame {
 		});
 		mnTools.add(chckbxmntmAdvancedOptions);
 		
-		mnHelp = new JMenu("Help");
+		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
-		mntmAbout = new JMenuItem("About");
+		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Show an about dialog.
@@ -74,7 +66,7 @@ public class ConfigWindow extends JFrame {
 			}
 		});
 		mnHelp.add(mntmAbout);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -99,7 +91,7 @@ public class ConfigWindow extends JFrame {
 		gbc_lblFuel.gridy = 1;
 		contentPane.add(lblFuel, gbc_lblFuel);
 		
-		fuelTextField = new JTextField();
+		JTextField fuelTextField = new JTextField();
 		fuelTextField.setText("1000");
 		GridBagConstraints gbc_fuelTextField = new GridBagConstraints();
 		gbc_fuelTextField.insets = new Insets(0, 0, 5, 0);
@@ -126,7 +118,7 @@ public class ConfigWindow extends JFrame {
 		tickRateTextField.setColumns(20);
 		tickRateTextField.setVisible(false);
 		
-		btnStartGame = new JButton("Start Game");
+		JButton btnStartGame = new JButton("Start Game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Start the game with the user's specified fuel and tickrate values.
