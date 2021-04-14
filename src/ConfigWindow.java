@@ -101,6 +101,7 @@ public class ConfigWindow extends JFrame {
 		contentPane.add(fuelTextField, gbc_fuelTextField);
 		fuelTextField.setColumns(20);
 		
+		// These interface items won't be visible by default.
 		lblTickRate = new JLabel("Tickrate");
 		GridBagConstraints gbc_lblTickRate = new GridBagConstraints();
 		gbc_lblTickRate.insets = new Insets(0, 0, 5, 0);
