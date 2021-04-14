@@ -9,7 +9,7 @@ public class GameThread extends Thread {
 	private final double ACCEL = 98; // acceleration rate of the rocket (in units/s)
 	private boolean gameStarted, gameOver, keyPressed;
 	private double position, velocity, accelPerTick, startingFuel, currentFuel;
-	private int screenStartPosition, tickRate, refreshInterval;
+	private int tickRate, refreshInterval;
 	
 	/**
 	 * Constructor for the game thread. Initialize all variables to the proper 
@@ -21,7 +21,6 @@ public class GameThread extends Thread {
 		refreshInterval = 1000 / tickRate;
 		accelPerTick = ACCEL / tickRate; // Set the actual acceleration rate based on the tickrate.
 		currentFuel = startingFuel = fuel; // Set the current fuel level and the starting fuel level to the fuel parameter.
-		screenStartPosition = 496; // I have no idea where this value came from, it just happened to work. It seems highly illogical.
 		gameStarted = false;
 		gameOver = false;
 		keyPressed = false;
@@ -112,8 +111,8 @@ public class GameThread extends Thread {
 	/**
 	 * @return the rocket's position on screen
 	 */
-	public int getScreenPosition() {
-		return -1 * (int) position + screenStartPosition;
+	public int getPosition() {
+		return (int) position;
 	}
 
 }
