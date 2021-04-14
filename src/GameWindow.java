@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 /**
  * Main game window.
@@ -23,6 +25,7 @@ public class GameWindow extends JFrame {
 
 	private final int ROCKETHEIGHT = 32;
 	private final int ROCKETWIDTH = ROCKETHEIGHT / 2;
+	private int rocketX, rocketY;
 
 	/**
 	 * Set up the game. All code is in the constructor since this class only handles graphics.
@@ -31,8 +34,6 @@ public class GameWindow extends JFrame {
 	 * @param fuel the amount of fuel the rocket has
 	 */
 	public GameWindow(int tickRate, int fuel) {
-		// Set up the game window
-		setResizable(false);
 		setTitle("Moon Lander");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 600);
@@ -41,51 +42,63 @@ public class GameWindow extends JFrame {
 		GameThread gameThread = new GameThread(tickRate, fuel);
 		
 		// Drawing code for window panel 
-		int rocketX = getWidth() / 2 - ROCKETWIDTH;
 		JPanel contentPane = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.setColor(Color.BLACK);
-				g.drawRect(0, 0, getWidth(), getHeight());
 				g.fillRect(0, 0, getWidth(), getHeight());
 				g.setColor(Color.LIGHT_GRAY);
-				g.drawRect(0, getHeight() - 32, getWidth(), 32);
 				g.fillRect(0, getHeight() - 32, getWidth(), 32);
 				g.setColor(Color.GRAY);
-				g.drawRect(rocketX, gameThread.getScreenPosition(), ROCKETWIDTH, ROCKETHEIGHT);
-				g.fillRect(rocketX, gameThread.getScreenPosition(), ROCKETWIDTH, ROCKETHEIGHT);
+				g.fillRect(rocketX, rocketY, ROCKETWIDTH, ROCKETHEIGHT);
 			}
 		};
 		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
 		JLabel lblSpeed = new JLabel("Speed: 0");
 		lblSpeed.setForeground(Color.WHITE);
 		lblSpeed.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblSpeed.setBounds(10, 11, 120, 30);
-		contentPane.add(lblSpeed);
 		
 		JLabel lblFuel = new JLabel("Fuel: 0");
 		lblFuel.setForeground(Color.WHITE);
 		lblFuel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFuel.setBounds(10, 52, 120, 30);
-		contentPane.add(lblFuel);
 		
 		JLabel lblGameWin = new JLabel("You landed!");
 		lblGameWin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameWin.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblGameWin.setForeground(Color.WHITE);
-		lblGameWin.setBounds(10, 200, 364, 29);
-		contentPane.add(lblGameWin);
 		lblGameWin.setVisible(false);
 		
 		JLabel lblResetInfo = new JLabel("Press R to reset the game.");
 		lblResetInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResetInfo.setForeground(Color.WHITE);
 		lblResetInfo.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblResetInfo.setBounds(10, 240, 364, 29);
-		contentPane.add(lblResetInfo);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblSpeed, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblFuel, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblGameWin, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+						.addComponent(lblResetInfo, GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
+					.addGap(5))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(6)
+					.addComponent(lblSpeed, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(lblFuel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(118)
+					.addComponent(lblGameWin)
+					.addGap(11)
+					.addComponent(lblResetInfo))
+		);
+		contentPane.setLayout(gl_contentPane);
 		lblResetInfo.setVisible(false);
 		
 		// Key listener code
@@ -115,6 +128,8 @@ public class GameWindow extends JFrame {
 		ActionListener updateWindow = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Update the screen with new information.
+				rocketX = contentPane.getWidth() / 2 - ROCKETWIDTH / 2;
+				rocketY = contentPane.getHeight() - 32 - ROCKETHEIGHT - gameThread.getPosition(); 
 				repaint();
 				lblSpeed.setText("Speed: " + gameThread.getSpeed());
 				lblFuel.setText("Fuel: " + gameThread.getCurrentFuel());
