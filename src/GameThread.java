@@ -35,8 +35,8 @@ public class GameThread extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				sleep(refreshInterval);
 				runGameLogic();
+				sleep(refreshInterval);
 			} catch (InterruptedException e) {
 				// This should never happen
 				e.printStackTrace();
