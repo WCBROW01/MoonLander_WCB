@@ -47,7 +47,7 @@ public class GameThread extends Thread {
 	/**
 	 * Actual game logic.
 	 */
-	public void runGameLogic() {
+	private void runGameLogic() {
 		// Only run game logic if the game is in the default state
 		if (gameStarted && !gameOver) {
 			// Set velocity and fuel values
