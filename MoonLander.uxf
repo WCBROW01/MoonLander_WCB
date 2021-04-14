@@ -7,7 +7,7 @@
       <x>30</x>
       <y>40</y>
       <w>230</w>
-      <h>290</h>
+      <h>280</h>
     </coordinates>
     <panel_attributes>GameThread
 --
@@ -20,7 +20,6 @@
 -double: currentFuel
 -double: position
 -double: velocity
--int: screenStartPosition
 -int: refreshInterval
 -int: tickRate
 --
@@ -36,12 +35,14 @@
       <x>30</x>
       <y>390</y>
       <w>230</w>
-      <h>80</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>GameWindow
 --
 -int: ROCKETHEIGHT
 -int: ROCKETWIDTH
+-int: rocketX
+-int: rocketY
 --
 +GameWindow(int tickRate, int fuel)</panel_attributes>
     <additional_attributes/>
@@ -50,7 +51,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>340</x>
-      <y>340</y>
+      <y>380</y>
       <w>350</w>
       <h>130</h>
     </coordinates>
@@ -84,27 +85,27 @@
       <x>510</x>
       <y>280</y>
       <w>30</w>
-      <h>80</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>130</x>
-      <y>320</y>
+      <y>310</y>
       <w>30</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>250</x>
-      <y>420</y>
+      <y>440</y>
       <w>110</w>
       <h>30</h>
     </coordinates>
