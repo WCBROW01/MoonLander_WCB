@@ -136,7 +136,11 @@ public class GameWindow extends JFrame {
 				
 				// Display the win/loss text if the game is over.
 				if (gameThread.isGameOver()) {
-					lblGameWin.setText(gameThread.getSpeed() < 25 ? "You landed!" : "You crashed.");
+					if (gameThread.getGameTime() < 1000) {
+						lblGameWin.setText("Nice try.");
+					} else {
+						lblGameWin.setText(gameThread.getSpeed() < 25 ? "You landed!" : "You crashed.");						
+					}
 					lblGameWin.setVisible(true);
 					lblResetInfo.setVisible(true);
 				}
