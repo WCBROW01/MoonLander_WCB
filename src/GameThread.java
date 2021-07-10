@@ -9,6 +9,7 @@ public class GameThread extends Thread {
 	private final double ACCEL = 98; // acceleration rate of the rocket (in units/s)
 	private boolean gameStarted, gameOver, keyPressed;
 	private double position, velocity, accelPerTick, startingFuel, currentFuel;
+	private long gameTime;
 	private int tickRate, refreshInterval;
 	
 	/**
@@ -49,6 +50,9 @@ public class GameThread extends Thread {
 	private void runGameLogic() {
 		// Only run game logic if the game is in the default state
 		if (gameStarted && !gameOver) {
+			// Increment the game time by the tickrate.
+			gameTime += tickRate;
+			
 			// Set velocity and fuel values
 			if (keyPressed && currentFuel > 0.0) {
 				velocity += accelPerTick;
@@ -64,7 +68,9 @@ public class GameThread extends Thread {
 				gameStarted = false;
 				gameOver = true;
 			}
+		// If the game hasn't started yet, reset the game time and start the game.
 		} else if (!gameStarted) {
+			gameTime = 0;
 			gameStarted = keyPressed;
 		}
 	}
@@ -85,6 +91,13 @@ public class GameThread extends Thread {
 	 */
 	public void setKeyPressed(boolean keyPressed) {
 		this.keyPressed = keyPressed;
+	}
+
+	/**
+	 * @return the game time
+	 */
+	public long getGameTime() {
+		return gameTime;
 	}
 
 	/**
