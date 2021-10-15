@@ -1,5 +1,5 @@
 /**
- * Game loop code for the moon lander game.
+ * Game logic code for the moon lander game.
  * @author Will Brown
  * @version 1.0-alpha
  * Spring 2021

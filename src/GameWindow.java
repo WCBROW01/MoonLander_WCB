@@ -38,7 +38,7 @@ public class GameWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 600);
 		
-		// Instantiate class for game loop thread
+		// Instantiate class for game logic
 		GameLogic gameLogic = new GameLogic(tickRate, fuel);
 		
 		// Drawing code for window panel 
@@ -149,8 +149,7 @@ public class GameWindow extends JFrame {
 			}
 		};
 		
-		// Start the game thread and create timer
-		//gameThread.start();
+		// Create the timer and start it
 		Timer timer = new Timer(1000 / tickRate, updateWindow);
 		timer.start();
 	}
