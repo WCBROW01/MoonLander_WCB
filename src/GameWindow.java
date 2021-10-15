@@ -39,7 +39,7 @@ public class GameWindow extends JFrame {
 		setBounds(100, 100, 400, 600);
 		
 		// Instantiate class for game loop thread
-		GameThread gameThread = new GameThread(tickRate, fuel);
+		GameLogic gameLogic = new GameLogic(tickRate, fuel);
 		
 		// Drawing code for window panel 
 		JPanel contentPane = new JPanel() {
@@ -107,10 +107,10 @@ public class GameWindow extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_SPACE:
-					gameThread.setKeyPressed(true);
+					gameLogic.setKeyPressed(true);
 					break;
 				case KeyEvent.VK_R:
-					gameThread.resetGame();
+					gameLogic.resetGame();
 					lblGameWin.setVisible(false);
 					lblResetInfo.setVisible(false);
 					break;
@@ -119,7 +119,7 @@ public class GameWindow extends JFrame {
 			
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					gameThread.setKeyPressed(false);
+					gameLogic.setKeyPressed(false);
 				}
 			}
 		});
@@ -127,19 +127,21 @@ public class GameWindow extends JFrame {
 		// Code executed by timer
 		ActionListener updateWindow = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				gameLogic.runGameLogic();
+				
 				// Update the screen with new information.
 				rocketX = contentPane.getWidth() / 2 - ROCKETWIDTH / 2;
-				rocketY = contentPane.getHeight() - 32 - ROCKETHEIGHT - gameThread.getPosition(); 
+				rocketY = contentPane.getHeight() - 32 - ROCKETHEIGHT - gameLogic.getPosition(); 
 				repaint();
-				lblSpeed.setText("Speed: " + gameThread.getSpeed());
-				lblFuel.setText("Fuel: " + gameThread.getCurrentFuel());
+				lblSpeed.setText("Speed: " + gameLogic.getSpeed());
+				lblFuel.setText("Fuel: " + gameLogic.getCurrentFuel());
 				
 				// Display the win/loss text if the game is over.
-				if (gameThread.isGameOver()) {
-					if (gameThread.getGameTime() < 1000) {
+				if (gameLogic.isGameOver()) {
+					if (gameLogic.getGameTime() < 1000) {
 						lblGameWin.setText("Nice try.");
 					} else {
-						lblGameWin.setText(gameThread.getSpeed() < 25 ? "You landed!" : "You crashed.");						
+						lblGameWin.setText(gameLogic.getSpeed() < 25 ? "You landed!" : "You crashed.");						
 					}
 					lblGameWin.setVisible(true);
 					lblResetInfo.setVisible(true);
@@ -148,7 +150,7 @@ public class GameWindow extends JFrame {
 		};
 		
 		// Start the game thread and create timer
-		gameThread.start();
+		//gameThread.start();
 		Timer timer = new Timer(1000 / tickRate, updateWindow);
 		timer.start();
 	}

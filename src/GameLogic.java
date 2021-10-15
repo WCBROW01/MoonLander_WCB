@@ -4,22 +4,21 @@
  * @version 1.0-alpha
  * Spring 2021
  */
-public class GameThread extends Thread {
+public class GameLogic {
 	
 	private final double ACCEL = 98; // acceleration rate of the rocket (in units/s)
 	private boolean gameStarted, gameOver, keyPressed;
 	private double position, velocity, accelPerTick, startingFuel, currentFuel;
 	private long startTime, gameTime;
-	private int tickRate, refreshInterval;
+	private int tickRate;
 	
 	/**
 	 * Constructor for the game thread. Initialize all variables to the proper 
 	 * @param tickRate how many times the game logic runs in one second
 	 * @param fuel the amount of fuel the rocket has
 	 */
-	public GameThread(int tickRate, int fuel) {
+	public GameLogic(int tickRate, int fuel) {
 		this.tickRate = tickRate;
-		refreshInterval = 1000 / tickRate;
 		accelPerTick = ACCEL / tickRate; // Set the actual acceleration rate based on the tickrate.
 		currentFuel = startingFuel = fuel; // Set the current fuel level and the starting fuel level to the fuel parameter.
 		gameStarted = false;
@@ -30,24 +29,9 @@ public class GameThread extends Thread {
 	}
 	
 	/**
-	 * Code run when the thread starts.
-	 */
-	public void run() {
-		while (true) {
-			try {
-				runGameLogic();
-				sleep(refreshInterval);
-			} catch (InterruptedException e) {
-				// This should never happen
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
 	 * Actual game logic.
 	 */
-	private void runGameLogic() {
+	public void runGameLogic() {
 		// Only run game logic if the game is in the default state
 		if (gameStarted && !gameOver) {
 			// Increment the game time.
